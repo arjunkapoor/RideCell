@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>RideCell Coding Challenge</title>
+		<!--Utilizing a helper jQuery theme to save time-->
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<style>
+			h1 { 
+				padding: .2em; 
+				margin: 0; 
+			}
+			#products { 
+				float:left; 
+				width: 500px; 
+				margin-right: 2em; 
+			}
+			#cart { 
+				width: 300px; 
+				float: left;  
+			}
+			#cart ul { 
+				margin: 0; 
+				padding: 1em 0 1em 3em; 
+			}
+		</style>
+		<script>
+		$(function() {
+			//Displays collapsible content panels - accordion()
+			$( "#catalog" ).accordion();
+			//Drag content
+			$( "#catalog li" ).draggable({
+				appendTo: "body",
+				helper: "clone"
+			});
+			//Drop content in shopping cart
+			$( "#cart ol" ).droppable({
+				activeClass: "ui-state-default",
+				hoverClass: "ui-state-hover",
+				accept: ":not(.ui-sortable-helper)",
+				//check for event and modify shopping cart
+				drop: function( event, ui ) {
+				$( this ).find( ".placeholder" ).remove();
+				$( "<li></li>" ).text( ui.draggable.text() ).appendTo( this );
+				}
+				//For keeping track of # of items in the shopping cart	
+				}).sortable({
+					items: "li:not(.placeholder)",
+					sort: function() {
+						$( this ).removeClass( "ui-state-default" );
+		    		}
+		  		});
+				$( "#order" ).click(function() {
+				var x = prompt("Please enter a pick-up time (eg. 11am or 130pm)");
+  				alert( "Order Placed for " + x );
+			});
+		});
+</script>
+	</head>
+	<body> 
+		<div id="products">
+			<h1 class="ui-widget-header">Berkeley Cafeteria</h1>
+		  	<div id="catalog">
+		    	<h2><a href="#">Store #1</a></h2>
+		    	<div>
+		      		<ul>
+		        		<li>Fries</li>
+		        		<li>Cheezeburger</li>
+		        		<li>Chicken Sandwich</li>
+		        		<li>Soda</li>
+		      		</ul>
+		    	</div>
+		    	<h2><a href="#">Store #2</a></h2>
+		    	<div>
+		      		<ul>
+		        		<li>Hot Dog</li>
+		        		<li>Dim Sum</li>
+		        		<li>Chips</li>
+		        		<li>Soda</li>
+		      		</ul>
+		    	</div>
+		    	<h2><a href="#">Store #3</a></h2>
+			    <div>
+				   	<ul>
+				    	<li>Pizza</li>
+		        		<li>Bagels</li>
+		        		<li>Donuts</li>
+		        		<li>Soda</li>
+				    </ul>
+			    </div>
+			    <h2><a href="#">Store #4</a></h2>
+			    <div>
+				   	<ul>
+				    	<li>Soup</li>
+		        		<li>Salad</li>
+		        		<li>Fruit mix</li>
+		        		<li>Soda</li>
+		        	</ul>
+			    </div>
+		  </div>
+		</div>
+		 
+		<div id="cart">
+			<h1 class="ui-widget-header">Shopping Cart</h1>
+			<div class="ui-widget-content">
+			  <ol>
+			    <li class="placeholder">Drag & Drop your items here</li>
+		      </ol>
+		  	</div>
+		  	<div>
+		  		<button id="order">Place Order</button>
+		</div> 
+	</body>
+</html>
